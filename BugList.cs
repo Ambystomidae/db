@@ -35,6 +35,7 @@ namespace MyWebStudio
                 dataGridView1.Rows.Clear();
                 while (SQL.MyDataReader.Read())
                 {
+                    label1.Text = "Текущий раздел: "+SQL.MyDataReader.GetString(0);
                     dataGridView1.Rows.Add(
                         SQL.MyDataReader.GetString(0),
                         SQL.MyDataReader.GetInt32(1),
@@ -53,6 +54,11 @@ namespace MyWebStudio
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }
