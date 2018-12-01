@@ -293,6 +293,7 @@ namespace MyWebStudio
 
         private void button10_Click(object sender, EventArgs e)
         {
+            if (dataGridView5.SelectedCells[0].RowIndex < 0) return;
             SQL.myCommand.CommandText = "delete from projectsection where id = " + dataGridView5.Rows[dataGridView5.SelectedCells[0].RowIndex].Cells[0].Value.ToString() + ";";
             try
             {

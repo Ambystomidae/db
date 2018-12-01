@@ -20,11 +20,10 @@ namespace MyWebStudio
         private void button1_Click(object sender, EventArgs e)
         {
             SQL.Connect = "Database=id46381849_liga;" +
-                "Data Source=mysql.id46381849.myjino.ru;" +
-                "User Id="+textBox1.Text+";" +
-                "Password="+textBox2.Text+";" +
+                "Data Source=127.0.0.1;" +
+                "User Id=LoginTest;" +
+                "Password=1234;" +
                 "charset = UTF8;" +
-                //"SslMode=none;" +
                 "port=3306";
             
             SQL.myConnection = new MySqlConnection(SQL.Connect);
@@ -33,7 +32,39 @@ namespace MyWebStudio
             try
             {
                 SQL.myConnection.Open();
-                var f = new administrator();
+
+
+
+                SQL.myCommand.CommandText = "select admin from employee where login = " 
+                    + SQL.StringToQueryFormat(textBox1.Text) + " and password = " 
+                    + SQL.StringToQueryFormat(textBox2.Text) + ";";
+
+                int UserStatus = (int)SQL.myCommand.ExecuteScalar();
+                SQL.myConnection.Close();
+
+                Form f;
+                if (UserStatus == 1)
+                {
+                    SQL.Connect = "Database=id46381849_liga;" +
+                "Data Source=127.0.0.1;" +
+                "User Id=Admin;Password=1234;" +
+                "charset = UTF8;port=3306";
+                    SQL.myConnection = new MySqlConnection(SQL.Connect);
+                    SQL.myCommand = new MySqlCommand(SQL.CommandText, SQL.myConnection);
+                    SQL.myConnection.Open();
+                    f = new administrator();
+                }
+                else
+                {
+                    SQL.Connect = "Database=id46381849_liga;" +
+                "Data Source=127.0.0.1;" +
+                "User Id=User;Password=1234;" +
+                "charset = UTF8;port=3306";
+                    SQL.myConnection = new MySqlConnection(SQL.Connect);
+                    SQL.myCommand = new MySqlCommand(SQL.CommandText, SQL.myConnection);
+                    SQL.myConnection.Open();
+                    f = new UserWindow();
+                }
                 this.Visible = false;
                 f.ShowDialog();
                 SQL.myConnection.Close();
@@ -46,6 +77,11 @@ namespace MyWebStudio
 
 
                 return;
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Неправильный логин или пароль");
+
             }
         }
 

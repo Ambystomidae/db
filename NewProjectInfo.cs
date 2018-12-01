@@ -19,13 +19,13 @@ namespace MyWebStudio
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SQL.myCommand.CommandText = "call AddProjectInfo(" + SQL.EnterParam(textBox1.Text, textBox2.Text, administrator.SelectedIndexOfProject) + ");";
+            SQL.myCommand.CommandText = "insert into projectinfo values (default," + SQL.EnterParam(administrator.SelectedIndexOfProject,textBox1.Text, textBox2.Text) + ");";
             try
             {
                 SQL.myCommand.ExecuteNonQuery();
                 this.Close();
             }
-            catch { }
+            catch (Exception ex ){ MessageBox.Show(ex.Message); }
         }
     }
 }
